@@ -11,10 +11,13 @@ import EditPost from './components/EditPost';
 import Footer from './components/Footer';
 
 function App() {
+  const user1 = localStorage.getItem('userInfo');
+       console.log(user1?user1:'no user');
   return (
     <UserContextProvider>
       <Header />
       <Routes>
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/post/:id" element={<PostDetails />} />

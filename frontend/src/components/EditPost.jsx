@@ -50,7 +50,6 @@ function EditPost() {
       });
   
       if (response.status === 200) {
-        console.log(response.data);
         navigate(`/post/${id}`);
       } else {
         alert("Update failed");

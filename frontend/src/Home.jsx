@@ -9,7 +9,6 @@ function Home() {
     try {
       const res = await axios.get('http://localhost:8000/posts');
       setPosts(res.data.posts);
-      console.log(res.data.posts)
     } catch (error) {
       console.error(error);  
     }

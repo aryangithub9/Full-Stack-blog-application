@@ -8,7 +8,6 @@ function Header() {
   const { setUserInfo, UserInfo } = useContext(UserContext);
 
   useEffect(() => {
-    // Fetch user profile on mount
     axios
       .get("http://localhost:8000/profile", { withCredentials: true })
       .then((response) => {
@@ -26,7 +25,8 @@ function Header() {
         {},
         { withCredentials: true }
       );
-      setUserInfo(null);
+      localStorage.removeItem("userInfo");
+      setUserInfo(null); // Clear user info
       navigate("/login"); // Redirect to the login page
     } catch (error) {
       console.error("Error logging out:", error);
