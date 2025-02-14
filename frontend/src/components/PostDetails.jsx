@@ -8,14 +8,21 @@ function PostDetails() {
   const { id } = useParams();
   const { UserInfo } = useContext(UserContext);
   const navigate = useNavigate();
+  const [isAuthor, setIsAuthor] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const res = await axios.get(`http://localhost:8000/posts/${id}`);
         setPost(res.data.post);
+        
+        // Check if current user is the author
+        const storedUser = JSON.parse(localStorage.getItem('userInfo'));
+        if (storedUser && res.data.post.author) {
+          setIsAuthor(storedUser.id === res.data.post.author._id);
+        }
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching post:", error);
       }
     };
     fetchPost();
@@ -27,7 +34,7 @@ function PostDetails() {
       try {
         await axios.delete(`http://localhost:8000/posts/${id}`);
         alert("Post deleted successfully!");
-        navigate("/"); // Redirect to homepage after deletion
+        navigate("/");
       } catch (error) {
         console.error("Error deleting post:", error);
         alert("Failed to delete the post.");
@@ -56,8 +63,8 @@ function PostDetails() {
         Created At: {new Date(post.createdAt).toLocaleString()}
       </p>
 
-      {/* Edit & Delete buttons (Only visible to the author) */}
-      {UserInfo?.id === post.author?._id && (
+     
+      {isAuthor && (
         <div className="text-center mt-6 flex justify-center gap-4">
           <Link
             to={`/edit/${post._id}`}
