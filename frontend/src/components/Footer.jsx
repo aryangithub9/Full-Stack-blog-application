@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
           {/* Logo & About */}
           <div className="mb-4 md:mb-0">
-            <h2 className="text-xl font-bold text-white">MyBlog</h2>
+            <h2 className="text-xl font-bold text-white">Blogify</h2>
             <p className="text-sm text-gray-400 mt-2">
               Sharing ideas, stories, and insights.
             </p>
