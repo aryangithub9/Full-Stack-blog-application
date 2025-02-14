@@ -21,7 +21,7 @@ function CreatePost() {
     formData.append('files', files);
 
     try {
-      const response = await axios.post('http://localhost:8000/posts/create', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/posts/create`, formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',

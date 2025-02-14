@@ -13,7 +13,7 @@ function PostDetails() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/posts/${id}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/posts/${id}`);
         setPost(res.data.post);
         
         // Check if current user is the author
@@ -32,7 +32,7 @@ function PostDetails() {
     const confirmDelete = window.confirm("Are you sure you want to delete this post?");
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8000/posts/${id}`);
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/posts/${id}`);
         alert("Post deleted successfully!");
         navigate("/");
       } catch (error) {
@@ -50,7 +50,7 @@ function PostDetails() {
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h1 className="text-3xl font-bold mb-4 text-center">{post.title}</h1>
       <img
-        src={`http://localhost:8000/${post.cover}`}
+        src={`${import.meta.env.VITE_BACKEND_URL}/${post.cover}`}
         alt={post.title}
         className="w-full h-64 object-contain rounded-lg mb-4"
       />

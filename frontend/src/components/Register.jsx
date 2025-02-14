@@ -12,7 +12,7 @@ function Register() {
     event.preventDefault();
     try {
       const res = await axios.post(
-        'http://localhost:8000/register',
+        `${import.meta.env.VITE_BACKEND_URL}/register`,
         { email, username, password },
         { withCredentials: true }
       );

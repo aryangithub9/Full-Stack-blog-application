@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 
+
 function Login() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ function Login() {
     event.preventDefault();
     try {
       const res = await axios.post(
-        'http://localhost:8000/login',
+        `${import.meta.env.VITE_BACKEND_URL}/login`,
         { email, password },
         { withCredentials: true }
       );

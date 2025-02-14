@@ -7,7 +7,7 @@ function Home() {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/posts');
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/posts`);
       setPosts(res.data.posts);
     } catch (error) {
       console.error(error);  

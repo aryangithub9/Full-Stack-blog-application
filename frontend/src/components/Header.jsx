@@ -9,7 +9,7 @@ function Header() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/profile", { withCredentials: true })
+      .get(`${import.meta.env.VITE_BACKEND_URL}/profile`, { withCredentials: true })
       .then((response) => {
         setUserInfo(response.data);
       })
@@ -21,7 +21,7 @@ function Header() {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:8000/logout",
+        `${import.meta.env.VITE_BACKEND_URL}/logout`,
         {},
         { withCredentials: true }
       );

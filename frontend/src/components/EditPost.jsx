@@ -15,7 +15,7 @@ function EditPost() {
   useEffect(() => {
     async function fetchPost() {
       try {
-        const response = await axios.get(`http://localhost:8000/posts/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/posts/${id}`);
         if (response.data.post) {
           const { title, summary, content } = response.data.post;
           setTitle(title);
@@ -42,7 +42,7 @@ function EditPost() {
     }
   
     try {
-      const response = await axios.put("http://localhost:8000/posts/update", data, {
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/posts/update`, data, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",

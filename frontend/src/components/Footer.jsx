@@ -1,4 +1,5 @@
 import { FaFacebook, FaTwitter, FaInstagram, FaGithub } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -26,7 +27,7 @@ const Footer = () => {
             <p  className="hover:text-white"><FaFacebook /></p>
             <p  className="hover:text-white"><FaTwitter /></p>
             <p  className="hover:text-white"><FaInstagram /></p>
-            <p  className="hover:text-white"><FaGithub /></p>
+            <Link to={'https://github.com/aryangithub9'}><p  className="hover:text-white"><FaGithub /></p></Link>
           </div>
         </div>
 
