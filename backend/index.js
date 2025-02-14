@@ -3,7 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 dotenv.config();
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import Connectdb from './connectdb.js';
 import User from './models/User.js';
 import cookieParser from 'cookie-parser';
@@ -20,11 +20,10 @@ const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(
   cors({
-    origin: "*", // Allow requests from any origin
+    origin: "http://localhost:5173", // Frontend URL
     credentials: true, // Allow credentials (cookies)
   })
 );
-
 app.use(cookieParser());
 Connectdb();
 
