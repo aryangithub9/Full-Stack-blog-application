@@ -32,7 +32,7 @@ function Header() {
       console.error("Error logging out:", error);
     }
   };
-  console.log( `${import.meta.env.VITE_BACKEND_URL}/logout`,)
+
 
   const email = UserInfo?.email;
 
