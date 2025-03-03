@@ -41,6 +41,10 @@ app.use(
 app.use(cookieParser());
 Connectdb();
 
+app.get('/',(req,res)=>{
+  res.json({message:"Api is Working good"});
+})
+
 app.post('/register', async (req, res) => {
   try {
     const { email, password, username } = req.body;
