@@ -34,7 +34,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: 'http://localhost:5173', // Frontend URL
+    origin: 'https://full-stack-blog-application-k2i5.onrender.com', // Frontend URL
     credentials: true, // Allow credentials (cookies)
   })
 );
