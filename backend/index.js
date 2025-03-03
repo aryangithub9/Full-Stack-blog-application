@@ -34,7 +34,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: 'https://full-stack-blog-application-k2i5.onrender.com', // Frontend URL
+    origin: ['http://localhost:5173','https://full-stack-blog-application-k2i5.onrender.com'], // Frontend URL
     credentials: true, // Allow credentials (cookies)
   })
 );
@@ -91,6 +91,8 @@ app.post('/login', async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
+      secure: true,
+      sameSite: 'none',
     });
 
     res.json({
@@ -151,6 +153,29 @@ app.post('/posts/create', uploadMiddleware.single('files'), async (req, res) => 
   }
 });
 
+app.put('/posts/update', uploadMiddleware.single('files'), async (req, res) => {
+  try {
+    const { token } = req.cookies;
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
+      if (err) {
+        return res.status(403).json({ message: 'Invalid or expired token' });
+      }
+
+      const { title, summary, content, id } = req.body;
+      const post = await Post.findById(id);
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      const newImageUrl = req.file ? req.file.path : post.cover;
+      await post.updateOne({ title, summary, content, cover: newImageUrl });
+      return res.status(200).json({ message: 'Post updated successfully', post });
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
 app.get('/posts', async (req, res) => {
   try {
     const posts = await Post.find().sort({ createdAt: -1 }).populate('author', ['username', 'email', '_id']);
@@ -183,28 +208,6 @@ app.delete('/posts/:id', async (req, res) => {
   }
 });
 
-app.put('/posts/update', uploadMiddleware.single('files'), async (req, res) => {
-  try {
-    const { token } = req.cookies;
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-      if (err) {
-        return res.status(403).json({ message: 'Invalid or expired token' });
-      }
-
-      const { title, summary, content, id } = req.body;
-      const post = await Post.findById(id);
-      if (!post) {
-        return res.status(404).json({ message: 'Post not found' });
-      }
-
-      const newImageUrl = req.file ? req.file.path : post.cover;
-      await post.updateOne({ title, summary, content, cover: newImageUrl });
-      return res.status(200).json({ message: 'Post updated successfully', post });
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
-  }
-});
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
