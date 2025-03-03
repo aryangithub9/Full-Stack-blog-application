@@ -52,6 +52,7 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-12 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
               placeholder="test1@gmail.com"
+              
             />
             <AiOutlineMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
           </div>
@@ -93,7 +94,7 @@ function Login() {
             className="text-black hover:underline hover:text-blue-600 cursor-pointer"
             onClick={() => navigate('/register')}
           >
-            Log In
+            Register
           </span>
         </p>
       </div>
