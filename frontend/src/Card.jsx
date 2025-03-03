@@ -12,7 +12,7 @@ function Card({ title, summary, cover, createdAt, author, _id }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
         <img 
           className="w-full h-40 object-cover transform group-hover:scale-105 transition-transform duration-500"
-          src={`${import.meta.env.VITE_BACKEND_URL}/${cover}`} 
+          src={`${cover}`} 
           alt={title} 
           loading="lazy"
         />

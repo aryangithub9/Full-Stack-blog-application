@@ -2,11 +2,14 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
-
+import { AiFillEye, AiFillEyeInvisible, AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 
 function Login() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const [message , setMessage] = useState(null);
   const navigate = useNavigate();
   const { setUserInfo } = useContext(UserContext);
 
@@ -23,59 +26,77 @@ function Login() {
         const { user } = res.data;
         setUserInfo(user);
         localStorage.setItem("userInfo", JSON.stringify(user));
-        alert('Login Successful!');
-        navigate('/');
+        setMessage('Login successful')
+        setTimeout(() => {
+          navigate('/')
+          
+        }, 500);
+        
       }
     } catch (error) {
-      if (error.response) {
-        alert("Login failed");
-      }
+      setMessage(error.response?.data?.message || 'Login failed');
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm" onSubmit={handleLogIn}>
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Login</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 px-6">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+        <h1 className='text-3xl font-medium text-black text-center mb-4'>Online journal for sharing ideas.</h1>
+        <h2 className="text-3xl font-medium font-serif text-center text-gray-800">Login</h2>
+        <form className="mt-6 space-y-4" onSubmit={handleLogIn}>
+          {/* Email Field */}
+          <div className="relative">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-12 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              placeholder="Email Address"
+            />
+            <AiOutlineMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
+          </div>
+          {/* Password Field */}
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-12 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              placeholder="Password"
+            />
+            <AiOutlineLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
+            >
+              {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+            </button>
+          </div>
+          <button
+            type="submit"
+            className="w-full py-3 text-white bg-purple-800 hover:bg-purple-700 rounded-sm transition text-xl"
+          >
+            Login
+          </button>
+        </form>
 
-        <div className="mb-4">
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+        {message && (
+          <p className={`mt-4 text-center text-lg font-semibold ${message.includes('successful') ? 'text-green-600' : 'text-red-600'}`}>
+            {message}
+          </p>
+        )}
 
-        <div className="mb-6">
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
-        >
-          Login
-        </button>
-
-        {/* Register link */}
-        <p className="text-center text-gray-600 mt-4">
+        <p className="mt-4 text-center text-gray-600">
           Don't have an account?{' '}
           <span 
-            className="text-blue-500 hover:underline cursor-pointer"
+            className="text-black hover:underline hover:text-blue-600 cursor-pointer"
             onClick={() => navigate('/register')}
           >
             Sign Up
           </span>
         </p>
-      </form>
+      </div>
     </div>
   );
 }

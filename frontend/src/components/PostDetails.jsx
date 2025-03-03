@@ -50,7 +50,7 @@ function PostDetails() {
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h1 className="text-3xl font-bold mb-4 text-center">{post.title}</h1>
       <img
-        src={`${import.meta.env.VITE_BACKEND_URL}/${post.cover}`}
+        src={`${post.cover}`}
         alt={post.title}
         className="w-full h-64 object-contain rounded-lg mb-4"
       />

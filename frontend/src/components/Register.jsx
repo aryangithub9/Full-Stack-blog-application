@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AiFillEye, AiFillEyeInvisible, AiOutlineMail, AiOutlineUser, AiOutlineLock } from 'react-icons/ai';
 
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const navigate = useNavigate(); // Fixed typo from "naviage" to "navigate"
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const [message , setMessage] = useState(null);
+  const navigate = useNavigate();
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -18,69 +22,86 @@ function Register() {
       );
 
       if (res.status === 201) {
-        alert('Registration successful!');
-        navigate('/login'); // Navigate to login page
+        setMessage('Registration Successful');
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
+        
       }
     } catch (error) {
-      if (error.response) {
-        alert("Registration Failed");
-      }
+      setMessage(error.response?.data?.message || 'Register  failed');
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm" onSubmit={handleRegister}>
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Register</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 px-6">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+      <h1 className=' text-2xl md:text-3xl font-medium text-black text-center mb-4'>Online journal for sharing ideas.</h1>
+        <h2 className="text-xl md:text-3xl font-medium font-serif text-center text-gray-800">Register</h2>
+        <form className="mt-6 space-y-4" onSubmit={handleRegister}>
+          {/* Email Field */}
+          <div className="relative">
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full px-12 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <AiOutlineMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
+          </div>
+          {/* Username Field */}
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Username"
+              className="w-full px-12 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <AiOutlineUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
+          </div>
+          {/* Password Field */}
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              className="w-full px-12 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <AiOutlineLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
+            >
+              {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+            </button>
+          </div>
+          <button
+            type="submit"
+            className="w-full py-3 text-white bg-purple-800 hover:bg-purple-700 rounded-sm transition text-xl"
+          >
+            Register
+          </button>
+        </form>
 
-        <div className="mb-4">
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Username"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-6">
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
-        >
-          Register
-        </button>
-
-        {/* Login Link */}
-        <p className="text-center text-gray-600 mt-4">
+        {message && (
+          <p className={`mt-4 text-center text-lg font-semibold ${message.includes('Successful') ? 'text-green-600' : 'text-red-600'}`}>
+            {message}
+          </p>
+        )}
+        <p className="mt-4 text-center text-gray-600">
           Already have an account?{' '}
           <span
-            className="text-blue-500 hover:underline cursor-pointer"
+            className="text-black hover:underline hover:text-blue-600 cursor-pointer"
             onClick={() => navigate('/login')}
           >
             Login
           </span>
         </p>
-      </form>
+      </div>
     </div>
   );
 }
