@@ -51,7 +51,7 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-12 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="Email Address"
+              placeholder="test1@gmail.com"
             />
             <AiOutlineMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
           </div>
@@ -62,7 +62,7 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-12 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="Password"
+              placeholder="test1"
             />
             <AiOutlineLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
             <button
@@ -93,7 +93,7 @@ function Login() {
             className="text-black hover:underline hover:text-blue-600 cursor-pointer"
             onClick={() => navigate('/register')}
           >
-            Sign Up
+            Log In
           </span>
         </p>
       </div>
